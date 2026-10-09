@@ -1,0 +1,146 @@
+
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0d10">
+<title>Gold+ | گلدپلاس</title>
+<style>
+:root{--bg:#0b0d10;--panel:#15191f;--line:#2b3038;--gold:#e7bd62;--text:#f5f1e8;--muted:#a0a7b1;--green:#59d6a0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.7}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1050px;margin:auto;padding:18px 14px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:45px;height:45px;border-radius:14px;background:linear-gradient(135deg,#ffe6a3,#b77e24);display:grid;place-items:center;color:#201707;font-weight:900;font-size:20px}
+h1{font-size:22px;margin:0}
+.brand p,.muted{font-size:12px;color:var(--muted);margin:2px 0}
+.btn{border:1px solid var(--line);border-radius:11px;background:#20252d;color:var(--text);padding:9px 13px}
+.goldbtn{background:var(--gold);color:#211909;border-color:var(--gold);font-weight:800}
+.hero{padding:24px 20px;border:1px solid #59492a;border-radius:19px;background:linear-gradient(120deg,#292317,#15171a);margin-bottom:22px}
+.eyebrow{color:var(--gold);font-size:12px;font-weight:800}
+.hero h2{font-size:clamp(24px,5vw,34px);margin:5px 0}
+.hero p{color:#c7c1b5;margin:0}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:24px 0 12px}
+.sectionhead h2{font-size:18px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:16px;min-width:0}
+.label{font-size:12px;color:var(--muted)}
+.metric{font-size:clamp(21px,4vw,28px);font-weight:800;margin:8px 0;overflow-wrap:anywhere}
+.status{font-size:11px;color:var(--muted)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold);margin-left:5px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{margin:10px 0}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}
+input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0d1014;color:var(--text)}
+.result{background:#0d1014;border:1px solid var(--line);border-radius:12px;padding:13px;margin-top:12px}
+.result strong{display:block;color:var(--gold);font-size:23px}
+.note{background:#201c13;border:1px solid #4d4027;border-radius:12px;padding:12px;margin-top:12px;font-size:12px;color:#d9cba9}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:13px}
+table{width:100%;min-width:500px;border-collapse:collapse;background:var(--panel)}
+th,td{text-align:right;padding:12px;border-bottom:1px solid var(--line);font-size:13px}
+th{color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.pill{font-size:11px;color:var(--gold);border:1px solid #574829;border-radius:20px;padding:2px 8px}
+footer{margin-top:28px;padding-top:15px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.toast{position:fixed;bottom:16px;left:12px;right:12px;max-width:450px;margin:auto;padding:12px 15px;background:#252b34;border:1px solid var(--line);border-radius:12px}
+.hidden{display:none}
+@media(max-width:650px){.grid,.two{grid-template-columns:1fr}.wrap{padding:14px 12px 30px}header{align-items:flex-start}.hero{padding:19px 15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="logo">G+</div>
+    <div><h1>Gold+ <span style="color:var(--gold)">گلدپلاس</span></h1><p>صندوق‌های طلا، یک‌جا و هوشمند</p></div>
+  </div>
+  <button class="btn" id="refresh">↻ تازه‌سازی</button>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">GOLD MARKET DASHBOARD</div>
+  <h2>هوشمندتر بازار طلا را دنبال کن</h2>
+  <p>قیمت طلا، محاسبه ارزش نظری و بررسی صندوق‌های طلا در یک داشبورد ساده و مناسب موبایل.</p>
+</section>
+
+<div class="sectionhead"><h2>نمای بازار</h2><span class="muted" id="updated">آماده</span></div>
+<section class="grid">
+  <article class="card">
+    <div class="label">طلای ۱۸ عیار</div>
+    <div class="metric" id="goldPrice">—</div>
+    <div class="label">تومان / گرم</div>
+    <div class="status"><span class="dot"></span>منبع قیمت هنوز متصل نیست</div>
+  </article>
+  <article class="card">
+    <div class="label">دلار آزاد</div>
+    <div class="metric" id="usdPrice">—</div>
+    <div class="label">تومان</div>
+    <div class="status"><span class="dot"></span>منبع قیمت هنوز متصل نیست</div>
+  </article>
+  <article class="card">
+    <div class="label">انس جهانی طلا</div>
+    <div class="metric" id="ouncePrice">—</div>
+    <div class="label">دلار / اونس تروا</div>
+    <div class="status"><span class="dot"></span>قیمت را در محاسبه‌گر وارد کن</div>
+  </article>
+</section>
+
+<div class="sectionhead"><h2>محاسبه‌گر طلای ۱۸ عیار</h2><span class="pill">ارزش نظری</span></div>
+<section class="card">
+  <div class="two">
+    <div class="field"><label for="ounce">قیمت انس جهانی (دلار)</label><input id="ounce" type="number" inputmode="decimal" placeholder="مثلاً 4300"></div>
+    <div class="field"><label for="usd">قیمت دلار (تومان)</label><input id="usd" type="number" inputmode="numeric" placeholder="مثلاً 150000"></div>
+    <div class="field"><label for="market">قیمت بازار هر گرم ۱۸ عیار (اختیاری)</label><input id="market" type="number" inputmode="numeric" placeholder="برای محاسبه حباب"></div>
+  </div>
+  <button class="btn goldbtn" id="calculate">محاسبه</button>
+  <div class="result"><span class="label">ارزش نظری هر گرم</span><strong id="intrinsic">—</strong><span class="muted" id="bubble">قیمت انس و دلار را وارد کن.</span></div>
+  <p class="muted">فرمول تقریبی: انس × دلار ÷ ۳۱٫۱۰۳۵ × ۰٫۷۵. اجرت، مالیات و هزینه‌های معامله لحاظ نشده‌اند.</p>
+</section>
+
+<div class="sectionhead"><h2>صندوق‌های طلا</h2><span class="muted">وضعیت داده‌ها</span></div>
+<div class="tablebox"><table>
+<thead><tr><th>صندوق</th><th>قیمت</th><th>NAV</th><th>حباب</th><th>وضعیت</th></tr></thead>
+<tbody>
+<tr><td>عیار</td><td>—</td><td>—</td><td>—</td><td><span class="pill">در انتظار اتصال</span></td></tr>
+<tr><td>طلا</td><td>—</td><td>—</td><td>—</td><td><span class="pill">در انتظار اتصال</span></td></tr>
+<tr><td>زر</td><td>—</td><td>—</td><td>—</td><td><span class="pill">در انتظار اتصال</span></td></tr>
+<tr><td>گنج</td><td>—</td><td>—</td><td>—</td><td><span class="pill">در انتظار اتصال</span></td></tr>
+<tr><td>کهربا</td><td>—</td><td>—</td><td>—</td><td><span class="pill">در انتظار اتصال</span></td></tr>
+</tbody>
+</table></div>
+<div class="note">قیمت زنده و رتبه‌بندی واقعی صندوق‌ها پس از اتصال به API معتبر بازار نمایش داده می‌شود. این صفحه فعلاً قیمت ساختگی نشان نمی‌دهد.</div>
+
+<div class="sectionhead"><h2>ورود و ثبت‌نام</h2></div>
+<section class="card">
+  <p>برای ورود با پیامک، سرویس پیامکی و بک‌اند امن باید متصل شود.</p>
+  <div class="field"><label for="phone">شماره موبایل</label><input id="phone" type="tel" inputmode="tel" maxlength="11" placeholder="09xxxxxxxxx"></div>
+  <button class="btn goldbtn" id="login">ادامه</button>
+  <p class="muted">این فرم نمایشی است و تا اتصال سرویس، پیامک ارسال نمی‌کند.</p>
+</section>
+<footer>Gold+ · گلدپلاس — صندوق‌های طلا، یک‌جا و هوشمند</footer>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script>
+const el=id=>document.getElementById(id);
+function notify(message){const t=el('toast');t.textContent=message;t.classList.remove('hidden');window.setTimeout(()=>t.classList.add('hidden'),3200)}
+function formatNumber(n){return Number.isFinite(n)?Math.round(n).toLocaleString('fa-IR'):'—'}
+function calculate(){
+ const ounce=Number(el('ounce').value),usd=Number(el('usd').value),market=Number(el('market').value);
+ if(!(ounce>0&&usd>0)){el('intrinsic').textContent='—';el('bubble').textContent='قیمت انس و دلار را وارد کن.';return}
+ const value=ounce*usd/31.1035*0.75;
+ el('intrinsic').textContent=formatNumber(value)+' تومان';
+ if(market>0){const b=(market/value-1)*100;el('bubble').textContent='حباب نسبت به ارزش نظری: '+b.toLocaleString('fa-IR',{maximumFractionDigits:2})+'٪';el('bubble').style.color=b>0?'#ff7f85':'#59d6a0'}
+ else{el('bubble').textContent='برای محاسبه حباب، قیمت بازار را هم وارد کن.';el('bubble').style.color=''}
+}
+el('calculate').addEventListener('click',calculate);
+['ounce','usd','market'].forEach(id=>el(id).addEventListener('keydown',e=>{if(e.key==='Enter')calculate()}));
+el('refresh').addEventListener('click',()=>{el('updated').textContent='آخرین بررسی: '+new Date().toLocaleTimeString('fa-IR');notify('صفحه تازه شد؛ قیمت زنده هنوز به منبع معتبر متصل نیست.')});
+el('login').addEventListener('click',()=>{const p=el('phone').value.trim();if(!/^09\d{9}$/.test(p)){notify('شماره موبایل را به شکل 09xxxxxxxxx وارد کن.');return}notify('ارسال پیامک پس از اتصال سرویس پیامکی فعال می‌شود.')});
+el('updated').textContent='آخرین بررسی: '+new Date().toLocaleTimeString('fa-IR');
+</script>
+</body>
+</html>
